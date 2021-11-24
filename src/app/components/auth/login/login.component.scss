@@ -1,0 +1,48 @@
+
+body {
+  background-color: #DEEBFF !important;
+  height: 900px;
+  width: auto;
+}
+
+.container {
+  width: auto;
+  padding-top: 150px;
+  margin-bottom: 200px;
+}
+
+.card_login {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  width: 40%;
+  box-shadow: 5px 5px 5px white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+span {
+  font-size: 20px;
+  margin-right: 20px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+@media all and (max-width: 600px) {
+  .card_login {
+    width: 80%;
+    margin-left: 10%;
+  }
+}
+
+@media all and (min-width: 600px) {
+  .card_login {
+    width: 47%;
+    margin-left: 23%;
+  }
+
+}

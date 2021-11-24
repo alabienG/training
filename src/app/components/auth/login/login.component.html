@@ -1,0 +1,49 @@
+<body>
+<div class="container text-center">
+  <div class="card_login">
+    <div class="header">
+      <img src="assets/images/img/bg-masthead.jpg" height="50px" class="logo">
+      <span>Connexion</span>
+
+    </div>
+    <hr/>
+    <br/>
+    <div class="contain">
+      <div class="alert alert-success" *ngIf="succes">
+        {{succes}}
+      </div>
+      <form class="auth-form" [formGroup]="authForm" (ngSubmit)="login()" *ngIf="!client">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" required="required" class="form-control">
+        </div>
+
+        <button class="btn btn-primary mt-4 form-control" [disabled]="authForm.invalid">Soumettre</button>
+        <br/> <br/>
+      </form>
+
+
+      <form class="auth-form" [formGroup]="codeAuth" (ngSubmit)="terminer()" *ngIf="client">
+        <div class="form-group">
+          <label for="code">Code d'identification</label>
+          <input type="text" id="code" formControlName="code" required="required" class="form-control">
+        </div>
+
+        <button class="btn btn-primary mt-4 form-control" [disabled]="codeAuth.invalid">Terminer</button>
+        <br/> <br/>
+      </form>
+    </div>
+
+    <div class="alert alert-danger" *ngIf="error">
+      {{error}}
+    </div>
+
+    <div class="footer">
+      Copyright © 2021 - mabek
+    </div>
+
+  </div>
+
+</div>
+
+</body>
