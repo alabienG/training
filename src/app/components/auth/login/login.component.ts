@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   public succes = '';
   public email = '';
   public client;
-
+  loader = false;
   authForm = this.formBuilder.group({
     'email': ['', Validators.email],
   });
@@ -32,13 +32,16 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.loader = true;
     this.service.generatedCode(this.authForm.value.email).subscribe(
       (result) => {
+        this.loader = false;
         this.client = result;
         this.succes = 'Ravis de vous revoir M/Mme/Mlle ' + result.nom + ' ' + result.prenom + ', Nous vous avons envoyer votre code d\'identification par mail';
         console.log(result);
       },
       (error) => {
+        this.loader = false;
         this.error = error.error;
         console.log(error);
       }

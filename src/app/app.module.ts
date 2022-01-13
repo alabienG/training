@@ -19,25 +19,44 @@ import {LoginService} from './services/login.service';
 import {AdminLoginComponent} from './components/auth/admin-login/admin-login.component';
 import {AccueilComponent} from './components/admin/accueil/accueil.component';
 import {ClientComponent} from './components/admin/client/client.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ToastContainerModule, ToastrModule} from 'ngx-toastr';
+import {OffreComponent} from './components/admin/offre/offre.component';
+import {OffreService} from './services/offre.service';
+import {ModuleComponent} from './components/admin/module/module.component';
+import {ModuleService} from './services/module.service';
+import {CoursComponent} from './components/admin/cours/cours.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+import {CourService} from './services/cour.service';
+import {RegisterComponent} from './components/auth/register/register.component';
+import {AngularFileUploaderModule} from 'angular-file-uploader';
+import {DetailCoursComponent} from './components/pages/detail-cours/detail-cours.component';
 
 const routes: Routes = [
 
   {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent},
   {path: 'adminLogin', component: AdminLoginComponent},
+
+  // {path: '', component: HomeComponent},
   {
     path: 'adminAccueil', component: AccueilComponent, children: [
       {path: 'client', component: ClientComponent},
+      {path: 'offre', component: OffreComponent},
+      {path: 'module', component: ModuleComponent},
+      {path: 'cours', component: CoursComponent},
     ]
   },
+
   {
-    path: 'training', component: HomeComponent, children: [
+    path: '', component: HomeComponent, children: [
       {path: '', component: InitalComponent},
-      {path: 'buy', component: BuyComponent},
+      {path: 'buy/:idOffre', component: BuyComponent},
       {path: 'offers', component: OffersComponent},
       {path: 'contact', component: ContactComponent},
       {path: 'modules', component: ModuleVideoComponent},
       {path: 'detailsModule/:id', component: DetailsModuleComponent},
+      {path: 'detailCours/:id', component: DetailCoursComponent}
     ]
   },
 
@@ -57,6 +76,11 @@ const routes: Routes = [
     AdminLoginComponent,
     AccueilComponent,
     ClientComponent,
+    OffreComponent,
+    ModuleComponent,
+    CoursComponent,
+    RegisterComponent,
+    DetailCoursComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,10 +90,20 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      progressBar: true,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+
+    }),
+    ToastContainerModule,
     RouterModule.forRoot(routes, {useHash: true}),
     NgbModule,
+    NgxPaginationModule,
+    AngularFileUploaderModule
   ],
-  providers: [LoginService],
+  providers: [LoginService, OffreService, ModuleService, CourService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -18,7 +18,12 @@
           <input type="email" id="email" formControlName="email" required="required" class="form-control">
         </div>
 
-        <button class="btn btn-primary mt-4 form-control" [disabled]="authForm.invalid">Soumettre</button>
+        <div class="spinner d-flex justify-content-between">
+          <button class="btn btn-primary mt-4 col-10 form-control" [disabled]="authForm.invalid">Soumettre</button>
+          <div class="spinner-border" role="status" *ngIf="loader">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
         <br/> <br/>
       </form>
 
@@ -38,8 +43,9 @@
       {{error}}
     </div>
 
-    <div class="footer">
+    <div class="footer d-flex justify-content-between">
       Copyright © 2021 - mabek
+      <a routerLink="/">retour</a>
     </div>
 
   </div>

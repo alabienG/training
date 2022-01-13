@@ -39,11 +39,16 @@
 
 section {
   display: flex;
-  margin-right: 3%;
+  justify-content: space-between;
+  padding: 10px;
 }
 
 article {
   flex: 3;
+  border: 2px solid #F2F2F2;
+  box-shadow: 5px 5px #F2F2F2;
+  border-radius: 10px;
+  margin-right: 20px;
 }
 
 aside {
@@ -52,6 +57,7 @@ aside {
   text-align: justify;
   padding: 5px;
   box-shadow: 5px 5px #F2F2F2;
+  border-radius: 10px;
 }
 
 .head {
@@ -86,6 +92,11 @@ aside {
 .desc p:nth-child(2) {
   margin-top: -20px;
   color: red;
+}
+
+.form{
+  display: flex;
+  margin-bottom: 50px;
 }
 
 @media all and (max-width: 820px) {

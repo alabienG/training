@@ -1,0 +1,150 @@
+<div toastContainer></div>
+
+<div class="card">
+  <div class="card-header table-responsive">
+    <div class="entete mb-2">
+      <h3>Liste des cours</h3>
+      <div class="chargement col" *ngIf="loader">
+        <div class="spinner-grow text-danger" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <button class="btn btn-sm btn-outline-primary" (click)="open(content)">Ajouter</button>
+    </div>
+
+    <div class="card-body" *ngIf="size<1 && !loader">
+      <div class="alert alert-danger">
+        Aucune donnée !
+      </div>
+    </div>
+
+    <div class="card-body" *ngIf="size>0">
+      <table class="table table-hover">
+        <thead class="dark">
+        <tr>
+          <th>Libelle</th>
+          <th>Description</th>
+          <th>Nombre heures</th>
+          <th>Module</th>
+          <th>Date Création</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr
+          *ngFor="let item of cours | paginate:{itemsPerPage:totalElementperPage, currentPage:page, totalItems:totalLenth}">
+          <td>{{item.libelle}}</td>
+          <td>{{item.description }}</td>
+          <td>{{item.nombreHeure}} Heure{{item.nombreHeure > 1 ? "s" : ""}}</td>
+          <td>{{item.module.libelle}}</td>
+          <td>{{item.datesave | date}}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary" title="Modifier" (click)="openToUpdate(content, item)"><i
+              class="fas fa-pen"></i></button>&nbsp;
+            <button class="btn btn-sm btn-outline-danger" title="Supprimer"
+                    (click)="openToDelete(content_delete, item)"><i
+              class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+        <pagination-controls (pageChange)="page=$event"
+                             (click)="getAll(page, totalElementperPage)"></pagination-controls>
+      </table>
+
+    </div>
+  </div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Ajouter une vidéo</h5>
+      <button type="button" class="btn-close" (click)="annuler()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="coursForm" (ngSubmit)="addOrUpdateCours()">
+        <div class="row">
+          <div class="form-group">
+            <label for="libelle">Libelle</label>
+            <input type="text" id="libelle" formControlName="libelle" [(ngModel)]="current.libelle" name="libelle"
+                   class="form-control form-control-lg">
+          </div>
+
+
+          <div class="form-group">
+            <label for="nombreHeure">Nombre d'heures</label>
+            <input type="number" id="nombreHeure" formControlName="nombreHeure" [(ngModel)]="current.nombreHeure"
+                   class="form-control form-control-lg">
+          </div>
+
+          <div class="form-group">
+            <label for="module">Module</label>
+            <select id="module" formControlName="module" required="required" [ngModel]="current.module"
+                    class="form-control form-control-lg">
+              <option></option>
+              <option *ngFor="let module of modules" value="{{module.id}}">{{module.libelle}}</option>
+            </select>
+          </div>
+
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea type="text" id="description" cols="5" rows="3" formControlName="description"
+                      [(ngModel)]="current.description"
+                      name="description" class="form-control form-control-lg"></textarea>
+          </div>
+
+
+
+          <div class="form-group">
+            <label for="pathImage">Path vidéo </label>
+            <angular-file-uploader
+              id="pathImage"
+              [config]="afuConfig">
+            </angular-file-uploader>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" [disabled]="loader_action" (click)="annuler()">Annuler</button>
+          <button type="submit" [disabled]="coursForm.invalid || loader_action"
+                  class="btn btn-primary">Enregistrer
+          </button>
+
+          <div class="spinner-border" role="status" *ngIf="loader_action">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <ng-template #content_delete let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h5 class="modal-title" id="deleteModalLabel">{{current.libelle}}</h5>
+      <button type="button" class="btn-close" (click)="annuler()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        Voulez-vous vraiment supprimer cette vidéo ?
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" [disabled]="loader_action" (click)="annuler()">Annuler</button>
+      <button type="submit" [disabled]="loader_action" (click)="supprimer()"
+              class="btn btn-danger">Supprimer
+      </button>
+
+      <div class="spinner-border" role="status" *ngIf="loader_action">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </ng-template>
+
+</div>

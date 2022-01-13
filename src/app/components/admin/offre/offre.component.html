@@ -1,0 +1,133 @@
+<div toastContainer></div>
+
+<div class="card">
+  <div class="card-header table-responsive">
+    <div class="entete mb-2">
+      <h3>Liste des offres</h3>
+      <div class="chargement col" *ngIf="loader">
+        <div class="spinner-grow text-danger" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <button class="btn btn-sm btn-outline-primary" (click)="open(content)">Ajouter</button>
+    </div>
+
+    <div class="card-body" *ngIf="size<1 && !loader">
+      <div class="alert alert-danger">
+        Aucune donnée !
+      </div>
+    </div>
+
+    <div class="card-body" *ngIf="size>0">
+      <table class="table table-hover">
+        <thead class="dark">
+        <tr>
+          <th>Libelle</th>
+          <th>Montant</th>
+          <th>Durée (Mois)</th>
+          <th>Description</th>
+          <th>Date Création</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let item of offres">
+          <td>{{item.libelle}}</td>
+          <td>{{item.montant | number}} FCFA</td>
+          <td>{{item.duree}} Mois</td>
+          <td>{{item.description}}</td>
+          <td>{{item.dateSave | date}}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary" title="Modifier" (click)="openToUpdate(content, item)"><i
+              class="fas fa-pen"></i></button>&nbsp;
+            <button class="btn btn-sm btn-outline-danger" title="Supprimer"
+                    (click)="openToDelete(content_delete, item)"><i
+              class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Ajouter une offre</h5>
+      <button type="button" class="btn-close" (click)="annuler()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="offreForm" (ngSubmit)="addOrUpdateOffre()">
+        <div class="row">
+          <div class="form-group">
+            <label for="libelle">Libelle</label>
+            <input type="text" id="libelle" formControlName="libelle" [(ngModel)]="offre.libelle" name="libelle"
+                   class="form-control form-control-lg">
+          </div>
+
+          <div class="form-group">
+            <label for="montant">Montant </label>
+            <input type="number" id="montant" formControlName="montant" [(ngModel)]="offre.montant"
+                   name="montant"
+                   class="form-control form-control-lg">
+          </div>
+
+          <div class="form-group">
+            <label for="duree">Durée (en mois)</label>
+            <input type="number" id="duree" formControlName="duree" [(ngModel)]="offre.duree"
+
+                   class="form-control form-control-lg">
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea type="text" id="description" cols="5" rows="3" formControlName="description"
+                      [(ngModel)]="offre.description"
+                      name="description" class="form-control form-control-lg"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" [disabled]="loader_action" (click)="annuler()">Annuler</button>
+          <button type="submit" [disabled]="offreForm.invalid || loader_action" id="btn_save"
+                  class="btn btn-primary">Enregistrer
+          </button>
+
+          <div class="spinner-border" role="status" *ngIf="loader_action">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <ng-template #content_delete let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h5 class="modal-title" id="deleteModalLabel">{{offre.libelle}}</h5>
+      <button type="button" class="btn-close" (click)="annuler()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        Voulez-vous vraiment supprimer cette offre ?
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" [disabled]="loader_action" (click)="annuler()">Annuler</button>
+      <button type="submit" [disabled]="loader_action" (click)="supprimer()"
+              class="btn btn-danger">Supprimer
+      </button>
+
+      <div class="spinner-border" role="status" *ngIf="loader_action">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </ng-template>
+
+</div>

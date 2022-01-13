@@ -1,0 +1,56 @@
+<body>
+<div class="container text-center">
+  <div class="card_login">
+    <div class="header">
+      <img src="assets/images/img/bg-masthead.jpg" height="50px" class="logo">
+      <span>Nouveau compte</span>
+
+    </div>
+    <hr/>
+    <br/>
+    <div class="contain">
+      <div class="alert alert-success" *ngIf="succes">
+        {{succes}}
+
+        Vous pouvez maintenant vous connecter <a routerLink="/login"> ici</a>
+      </div>
+      <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="register()" *ngIf="!client">
+        <div class="form-group">
+          <label for="nom">Nom</label>
+          <input type="text" id="nom" formControlName="nom" required="required" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="prenom">Prénom</label>
+          <input type="text" id="prenom" formControlName="prenom" required="required" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" required="required" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="telephone">Téléphone</label>
+          <input type="text" id="telephone" formControlName="telephone" required="required" class="form-control">
+        </div>
+
+        <button class="btn btn-primary mt-4 form-control" [disabled]="registerForm.invalid">Soumettre</button>
+        <br/> <br/>
+      </form>
+
+
+      <div class="alert alert-danger" *ngIf="error">
+        {{error}}
+      </div>
+
+      <div class="footer">
+        Copyright © 2021 - mabek
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</body>

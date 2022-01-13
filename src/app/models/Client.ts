@@ -6,6 +6,7 @@ export class Client {
   email: string;
   code: string;
   validated: boolean;
+  actif: boolean;
 
 
 }

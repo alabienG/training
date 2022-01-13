@@ -1,0 +1,154 @@
+<div toastContainer></div>
+
+<div class="card">
+  <div class="card-header table-responsive">
+    <div class="entete mb-2">
+      <h3>Liste des modules</h3>
+      <div class="chargement col" *ngIf="loader">
+        <div class="spinner-grow text-danger" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      <button class="btn btn-sm btn-outline-primary" (click)="open(content)">Ajouter</button>
+    </div>
+
+    <div class="card-body" *ngIf="size<1 && !loader">
+      <div class="alert alert-danger">
+        Aucune donnée !
+      </div>
+    </div>
+
+    <div class="card-body" *ngIf="size>0">
+      <table class="table table-hover">
+        <thead class="dark">
+        <tr>
+          <th>Libelle</th>
+          <th>Prérequis</th>
+          <th>Nombre vidéo</th>
+          <th>Nombre heures</th>
+          <th>Offre</th>
+          <th>Date Création</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr
+          *ngFor="let item of modules | paginate:{itemsPerPage:totalElementperPage, currentPage:page, totalItems:totalLenth}">
+          <td>{{item.libelle}}</td>
+          <td>{{item.prerequis }}</td>
+          <td>{{item.nombreVideo}} </td>
+          <td>{{item.nombreHeure}} Heure{{item.nombreHeure > 1 ? "s" : ""}}</td>
+          <td>{{item.offre?.libelle}}</td>
+          <td>{{item.dateSave | date}}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary" title="Modifier" (click)="openToUpdate(content, item)"><i
+              class="fas fa-pen"></i></button>&nbsp;
+            <button class="btn btn-sm btn-outline-danger" title="Supprimer"
+                    (click)="openToDelete(content_delete, item)"><i
+              class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+        </tbody>
+        <pagination-controls (pageChange)="page=$event"
+                             (click)="getAll(page, totalElementperPage)"></pagination-controls>
+      </table>
+
+    </div>
+  </div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Ajouter un module</h5>
+      <button type="button" class="btn-close" (click)="annuler()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="moduleForm" (ngSubmit)="addOrUpdateModule()">
+        <div class="row">
+          <div class="form-group">
+            <label for="libelle">Libelle</label>
+            <input type="text" id="libelle" formControlName="libelle" [(ngModel)]="module.libelle" name="libelle"
+                   class="form-control form-control-lg">
+          </div>
+
+          <div class="form-group">
+            <label for="prerequis">Prérequis </label>
+            <input type="text" id="prerequis" formControlName="prerequis" [(ngModel)]="module.prerequis"
+                   name="prerequis"
+                   class="form-control form-control-lg">
+          </div>
+
+          <div class="form-group">
+            <label for="nombreVideo">Nombre de vidéos</label>
+            <input type="number" id="nombreVideo" formControlName="nombreVideo" [(ngModel)]="module.nombreVideo"
+                   class="form-control form-control-lg">
+          </div>
+
+          <div class="form-group">
+            <label for="nombreHeure">Nombre d'heures</label>
+            <input type="number" id="nombreHeure" formControlName="nombreHeure" [(ngModel)]="module.nombreHeure"
+                   class="form-control form-control-lg">
+          </div>
+
+          <div class="form-group">
+            <label for="offre">Offre</label>
+            <select  id="offre" formControlName="offre" required="required" [ngModel]="offreSelected"
+                    class="form-control form-control-lg">
+              <option></option>
+              <option *ngFor="let offre of offres" value="{{offre.id}}">{{offre.libelle}}</option>
+            </select>
+          </div>
+
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea type="text" id="description" cols="5" rows="3" formControlName="description"
+                      [(ngModel)]="module.description"
+                      name="description" class="form-control form-control-lg"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" [disabled]="loader_action" (click)="annuler()">Annuler</button>
+          <button type="submit" [disabled]="moduleForm.invalid || loader_action"
+                  class="btn btn-primary">Enregistrer
+          </button>
+
+          <div class="spinner-border" role="status" *ngIf="loader_action">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <ng-template #content_delete let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h5 class="modal-title" id="deleteModalLabel">{{module.libelle}}</h5>
+      <button type="button" class="btn-close" (click)="annuler()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        Voulez-vous vraiment supprimer ce module ?
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" [disabled]="loader_action" (click)="annuler()">Annuler</button>
+      <button type="submit" [disabled]="loader_action" (click)="supprimer()"
+              class="btn btn-danger">Supprimer
+      </button>
+
+      <div class="spinner-border" role="status" *ngIf="loader_action">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </ng-template>
+
+</div>

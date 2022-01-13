@@ -14,61 +14,71 @@
   <div class="container">
     <div class="block-heading">
       <h2>Our Pricing</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae
+        leo.</p>
     </div>
     <div class="row justify-content-md-center">
-      <div class="col-md-5 col-lg-4">
+      <div class="col-md-5 col-lg-4"
+           *ngFor="let item of offres | paginate:{currentPage:page, itemsPerPage:elementPerPage, totalItems:size}">
         <div class="item">
           <div class="heading">
-            <h3>BASIC</h3>
+            <h3>{{item.libelle}}</h3>
           </div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <p>{{item.description}}</p>
           <div class="features">
-            <h4><span class="feature">Full Support</span> : <span class="value">No</span></h4>
-            <h4><span class="feature">Duration</span> : <span class="value">30 Days</span></h4>
-            <h4><span class="feature">Storage</span> : <span class="value">10GB</span></h4>
+            <h4><span class="feature">Réduction</span> : <span class="value">{{item.reduction}} %</span></h4>
+            <h4><span class="feature">Duration</span> : <span class="value">{{item.duree}} Mois</span></h4>
+            <h4><span class="feature">Date Création</span> : <span class="value">{{item.dateSave | date}}</span></h4>
           </div>
           <div class="price">
-            <h4>$25</h4>
+            <h4>{{item.montant | number}}  FCFA</h4>
           </div>
-          <button class="btn btn-block btn-outline-primary" type="submit">BUY NOW</button>
+          <div class="footer row">
+            <button class="btn btn-sm btn-outline-secondary col-5 mr-4" (click)="open(content, item)">Détails</button>
+            <a class="btn btn-sm btn-outline-primary col-5" routerLink="/buy/{{item.id}}">Buy Now</a>
+          </div>
         </div>
       </div>
-      <div class="col-md-5 col-lg-4">
-        <div class="item">
-          <div class="ribbon">Best Value</div>
-          <div class="heading">
-            <h3>PRO</h3>
-          </div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <div class="features">
-            <h4><span class="feature">Full Support</span> : <span class="value">Yes</span></h4>
-            <h4><span class="feature">Duration</span> : <span class="value">60 Days</span></h4>
-            <h4><span class="feature">Storage</span> : <span class="value">50GB</span></h4>
-          </div>
-          <div class="price">
-            <h4>$50</h4>
-          </div>
-          <button class="btn btn-block btn-primary" type="submit">BUY NOW</button>
-        </div>
-      </div>
-      <div class="col-md-5 col-lg-4">
-        <div class="item">
-          <div class="heading">
-            <h3>PREMIUM</h3>
-          </div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          <div class="features">
-            <h4><span class="feature">Full Support</span> : <span class="value">Yes</span></h4>
-            <h4><span class="feature">Duration</span> : <span class="value">120 Days</span></h4>
-            <h4><span class="feature">Storage</span> : <span class="value">150GB</span></h4>
-          </div>
-          <div class="price">
-            <h4>$150</h4>
-          </div>
-          <button class="btn btn-block btn-outline-primary" type="submit">BUY NOW</button>
-        </div>
-      </div>
+      <pagination-controls (pageChange)="page=$event"
+                           [autoHide]="true"
+                           (click)="getAll(page, elementPerPage)"></pagination-controls>
+
     </div>
   </div>
 </section>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h5 class="modal-title" id="deleteModalLabel">Liste des modules de l'offre {{offre?.libelle}}</h5>
+    <button type="button" class="btn-close" (click)="annuler()" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prérequis</th>
+            <th>Nombre de vidéo</th>
+            <th>Nombre d'heure</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr *ngFor="let item of offre.modules">
+            <td>{{item.libelle}}</td>
+            <td>{{item.prerequis}}</td>
+            <td>{{item.nombreVideo}}</td>
+            <td>{{item.nombreHeure}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>
+
