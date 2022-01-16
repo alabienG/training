@@ -115,6 +115,7 @@
                   <label for="numero">Numéro</label>
                   <input type="text" id="numero" [ngModel]="newCard.numero" (change)="checkValide()"
                          formControlName="numero"
+                         name="numero"
                          class="form-control">
                 </div>
 
@@ -123,6 +124,7 @@
                   <label for="expiration">Expiration</label>
                   <input type="date" id="expiration" [ngModel]="newCard.expriration" (change)="checkValide()"
                          formControlName="expiration"
+                         name="expiration"
                          class="form-control">
                 </div>
 
@@ -130,6 +132,7 @@
                   <label for="cvv">Code CVV</label>
                   <input type="text" id="cvv" (change)="checkValide()" [ngModel]="newCard.ccv"
                          formControlName="cvv"
+                         name="cvv"
                          class="form-control">
                 </div>
 
@@ -137,10 +140,10 @@
                   <label for="noms">Noms et prénoms</label>
                   <input type="text" id="noms" (change)="checkValide()" [ngModel]="newCard.noms"
                          formControlName="noms"
+                         name="noms"
                          class="form-control">
                 </div>
               </div>
-
 <!--              <button class="btn btn-primary" (click)="nexTabs()" [disabled]="formCard.invalid">Valider</button>-->
             </form>
           </div>
@@ -149,14 +152,15 @@
 
 
         <div class="stepOne" *ngIf="active ==2">
-          troisieme
+          troisième
         </div>
 
       </div>
 
       <div class="wizard-footer mt-4">
         <button class="btn btn-danger mr-2" *ngIf="active>0" (click)="previousTabs()">Précedent</button>
-        <button class="btn btn-primary" (click)="nexTabs()">Suivant</button>
+        <button class="btn btn-primary" (click)="nexTabs()" *ngIf="active != 2">Suivant</button>
+        <button class="btn btn-primary" *ngIf="active == 2 && pay">Payer</button>
       </div>
 
 

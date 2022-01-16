@@ -7,6 +7,7 @@ import {ModuleService} from '../../../services/module.service';
 import {CourService} from '../../../services/cour.service';
 import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 import {Offre} from '../../../models/Offre';
+import { UploadService } from 'src/app/services/upload.service';
 
 @Component({
   selector: 'app-cours',
@@ -25,7 +26,8 @@ export class CoursComponent implements OnInit {
   current = new Cours();
   coursForm: FormGroup;
   modules: Module[] = [];
-
+  files: FileList;
+  resource: string[];
 
   afuConfig = {
     uploadAPI: {
@@ -40,7 +42,7 @@ export class CoursComponent implements OnInit {
   toastContainer: ToastContainerDirective;
 
   constructor(private modalService: NgbModal, private moduleService: ModuleService, private formBuilder: FormBuilder,
-              private service: CourService, private toasts: ToastrService) {
+              private service: CourService, private toasts: ToastrService, private uploadService: UploadService) {
   }
 
   ngOnInit(): void {
@@ -69,13 +71,18 @@ export class CoursComponent implements OnInit {
   initForm() {
     this.coursForm = this.formBuilder.group({
       'libelle': ['', Validators.required],
-      'pathImage': [''],
-      'path': [''],
+      // 'pathImage': [''],
+      // 'path': [''],
+      'file': [''],
       'description': [''],
       'nombreHeure': ['', Validators.required],
       'module': ['', Validators.required]
     });
 
+  }
+
+  selectFiles(event) {
+    this.files = event.target.files;
   }
 
   getAllModules() {
@@ -92,10 +99,29 @@ export class CoursComponent implements OnInit {
 
     this.current.libelle = formValue.libelle;
     this.current.nombreHeure = formValue.nombreHeure;
-    this.current.path = formValue.path;
-    this.current.pathImage = formValue.pathImage;
+    // this.current.path = formValue.path;
+    this.current.pathImage = '';
     this.current.description = formValue.description;
     this.current.module = new Module(parseInt(formValue.module));
+
+    if (typeof this.files !== 'undefined' || this.files != null){
+      for (let i = 0; i < this.files.length; i++) {
+        this.uploadService.upload(this.files[i]).subscribe(
+          (event) => {
+            this.toasts.success('Fichier : ' + this.files[i].name + '\n' + event.message, 'Telechargement Terminé');
+            if (i === 0) {
+              this.current.pathImage += this.files[i].name;
+            } else {
+              this.current.pathImage = this.current.pathImage + ';' + this.files[i].name;
+            }
+          },
+          (error) => {
+            console.log('error : ', error);
+            this.toasts.error('Error : ' + error.error);
+          }
+        );
+      }
+    }
 
     if (this.current != null ? this.current.id > 0 : false) {
       let index = this.cours.indexOf(this.current);

@@ -99,15 +99,20 @@
                       name="description" class="form-control form-control-lg"></textarea>
           </div>
 
-
-
           <div class="form-group">
+            <label for="description">Inserer des fichiers</label>
+            <input type="file" accept=".mp4" name="file" id="" multiple class="form-control form-control-lg" formControlName="file"
+              (change)="selectFiles($event)"
+            >
+          </div>
+
+          <!-- <div class="form-group">
             <label for="pathImage">Path vidéo </label>
             <angular-file-uploader
               id="pathImage"
               [config]="afuConfig">
             </angular-file-uploader>
-          </div>
+          </div> -->
         </div>
 
         <div class="modal-footer">

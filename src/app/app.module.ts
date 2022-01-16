@@ -31,6 +31,7 @@ import {CourService} from './services/cour.service';
 import {RegisterComponent} from './components/auth/register/register.component';
 import {AngularFileUploaderModule} from 'angular-file-uploader';
 import {DetailCoursComponent} from './components/pages/detail-cours/detail-cours.component';
+import { CardService } from './services/card.service';
 
 const routes: Routes = [
 
@@ -103,7 +104,7 @@ const routes: Routes = [
     NgxPaginationModule,
     AngularFileUploaderModule
   ],
-  providers: [LoginService, OffreService, ModuleService, CourService],
+  providers: [LoginService, OffreService, ModuleService, CourService, CardService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

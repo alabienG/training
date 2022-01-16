@@ -96,4 +96,11 @@ footer {
   color: #4484e2;
 }
 
+.padding {
+  padding-top: 3rem !important
+}
 
+.form-control:focus {
+  box-shadow: 10px 0px 0px 0px #ffffff !important;
+  border-color: #4484e2;
+}

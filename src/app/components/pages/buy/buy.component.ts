@@ -1,17 +1,33 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  AfterViewInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef
+} from '@angular/core';
 import {Offre} from '../../../models/Offre';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {OffreService} from '../../../services/offre.service';
 import {ModuleService} from '../../../services/module.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { StripeService } from 'src/app/services/stripe.service';
+import { CardService } from 'src/app/services/card.service';
+import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+import { loadStripe } from '@stripe/stripe-js';
 
 class Card {
   numero: string;
-  expriration: Date;
+  expiration: Date;
   ccv: string;
   noms: string;
 }
 
+declare var stripe: any;
+declare var elements: any;
 @Component({
   selector: 'app-buy',
   templateUrl: './buy.component.html',
@@ -19,6 +35,9 @@ class Card {
 })
 export class BuyComponent implements OnInit {
 
+  // We load  Stripe
+  stripePromise = loadStripe(environment.stripePublicKey);
+  
   offre = new Offre();
   choosePaiement = '';
 
@@ -31,13 +50,17 @@ export class BuyComponent implements OnInit {
 
   formCard: FormGroup;
 
-  constructor(private router: ActivatedRoute, private offreService: OffreService, private moduleService: ModuleService,
-              private formBuilder: FormBuilder) {
+  pay : boolean;
+
+  constructor(private route: ActivatedRoute, private offreService: OffreService, private moduleService: ModuleService,
+              private formBuilder: FormBuilder, private router: Router,
+              private cardService: CardService, private toast: ToastrService) {
   }
 
   ngOnInit(): void {
-    let id = this.router.snapshot.params.idOffre;
+    let id = this.route.snapshot.params.idOffre;
     this.getOneOffre(id);
+    this.pay = false;
   }
 
   getOneOffre(id: number) {
@@ -54,9 +77,20 @@ export class BuyComponent implements OnInit {
   }
 
   nexTabs() {
+    if (this.active ==1 ) {
+      if (this.active_type ==1 ) {
+        let form = document.getElementsByTagName("form")[0];
+        console.log('form : ', form);
+        console.log('value : ', form.expiration.value);
+        
+        this.chargeCreditCard(form);
+      }
+    }
     if (this.active < 2) {
       this.active++;
     }
+
+    this.checkBeforeBuy();
   }
 
   previousTabs() {
@@ -86,4 +120,54 @@ export class BuyComponent implements OnInit {
     console.log(this.formCard.invalid);
   }
 
+  chargeCreditCard(form) {
+    this.newCard = new Card();
+    this.newCard.ccv = form.cvv.value;
+    this.newCard.expiration = form.expiration.value;
+    this.newCard.noms = form.noms.value;
+    this.newCard.numero = form.numero.value;
+
+    if (this.newCard.ccv != '' && this.newCard.expiration !== null && this.newCard.noms != '' && this.newCard.numero != '') {
+      this.pay = true;
+    } else {
+      this.pay = false;
+    }
+    //alert('card : ' + JSON.stringify(this.newCard));
+  }
+
+  checkBeforeBuy() {
+    if (this.active == 2 || this.active > 2) {
+      if (this.active_type == 1) {
+        this.buy();
+      }
+    }
+  }
+
+  async buy(): Promise<void> {
+    // here we create a payment object
+    const payment = {
+      name: 'Iphone',
+      currency: 'usd',
+      // amount on cents *10 => to be on dollar
+      amount: 99900,
+      quantity: '1',
+      cancelUrl: 'http://localhost:4200/cancel',
+      successUrl: 'http://localhost:4200/success',
+    };
+
+    // this is a normal http calls for a backend api
+    this.checkout(payment);
+  }
+
+  async checkout(payment) {
+    const stripe = await this.stripePromise;
+    this.cardService.checkout(payment).subscribe(
+      (data: any) => {
+        // I use stripe to redirect To Checkout page of Stripe platform
+        stripe.redirectToCheckout({
+          sessionId: data.id,
+        });
+      }
+    );
+  }
 }

@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  // url: 'http://localhost:8081/api/training/',
-  url: 'http://51.222.110.5:8081/api/training/',
+  stripePublicKey: '',//PUT YOUR STRIPE PUBLIC KEY HERE
+  url: 'http://localhost:8081/api/training/',
+  //url: 'http://51.222.110.5:8081/api/training/',
 };
 
 /*
