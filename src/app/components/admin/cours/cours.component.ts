@@ -95,33 +95,44 @@ export class CoursComponent implements OnInit {
 
   addOrUpdateCours() {
     this.loader_action = true;
-    let formValue = this.coursForm.value;
+    if (typeof this.files !== 'undefined' || this.files != null){
+      this.upload();
+    } else {
+      this.addOrUpdate('');
+    }
+  }
 
+  upload() {
+    let pathImage = '';
+    let count: number = 0;
+    console.log('File', this.files);
+    for (let i = 0; i < this.files.length; i++) {
+      this.uploadService.upload(this.files[i]).subscribe(
+        (event) => {
+          this.toasts.success('Fichier : ' + this.files[i].name + '\n' + event.message, 'Telechargement Terminé');
+          pathImage = pathImage + ';' + this.files[i].name;
+          count++;
+          console.log('Count ' + count);
+          if(count === this.files.length) {
+            this.addOrUpdate(pathImage);
+          }
+        },
+        (error) => {
+          console.log('error : ', error);
+          this.toasts.error('Error : ' + error.error);
+        }
+      );
+    }
+  }
+
+  addOrUpdate(path) {
+    let formValue = this.coursForm.value;
     this.current.libelle = formValue.libelle;
     this.current.nombreHeure = formValue.nombreHeure;
     // this.current.path = formValue.path;
-    this.current.pathImage = '';
+    this.current.pathImage = '' + path;
     this.current.description = formValue.description;
     this.current.module = new Module(parseInt(formValue.module));
-
-    if (typeof this.files !== 'undefined' || this.files != null){
-      for (let i = 0; i < this.files.length; i++) {
-        this.uploadService.upload(this.files[i]).subscribe(
-          (event) => {
-            this.toasts.success('Fichier : ' + this.files[i].name + '\n' + event.message, 'Telechargement Terminé');
-            if (i === 0) {
-              this.current.pathImage += this.files[i].name;
-            } else {
-              this.current.pathImage = this.current.pathImage + ';' + this.files[i].name;
-            }
-          },
-          (error) => {
-            console.log('error : ', error);
-            this.toasts.error('Error : ' + error.error);
-          }
-        );
-      }
-    }
 
     if (this.current != null ? this.current.id > 0 : false) {
       let index = this.cours.indexOf(this.current);

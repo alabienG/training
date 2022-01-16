@@ -54,6 +54,7 @@ const routes: Routes = [
       {path: '', component: InitalComponent},
       {path: 'buy/:idOffre', component: BuyComponent},
       {path: 'offers', component: OffersComponent},
+      {path: 'offers/:etat', component: OffersComponent},
       {path: 'contact', component: ContactComponent},
       {path: 'modules', component: ModuleVideoComponent},
       {path: 'detailsModule/:id', component: DetailsModuleComponent},

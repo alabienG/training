@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Offre} from '../../../models/Offre';
 import {OffreService} from '../../../services/offre.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-offers',
@@ -18,12 +20,18 @@ export class OffersComponent implements OnInit {
   offres: Offre[] = [];
   offre = new Offre();
 
-  constructor(private service: OffreService, private modalService: NgbModal) {
+  constructor(private service: OffreService, private modalService: NgbModal, private route: ActivatedRoute, private toast: ToastrService) {
   }
 
 
   ngOnInit(): void {
-
+    if(this.route.snapshot.params.etat != null) {
+      if (this.route.snapshot.params.etat === 'success') {
+        this.toast.success('Paiement effectué avec succes', 'Paiement Effectué');
+      } else {
+        this.toast.error('Votre paiement a rencontré un problème', 'Echec de paiement');
+      }
+    }
     this.getAll(this.page, this.elementPerPage);
   }
 

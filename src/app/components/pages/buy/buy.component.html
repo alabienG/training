@@ -109,7 +109,7 @@
           </div>
 
           <div class="card-type" *ngIf="active_type ==1">
-            <form [formGroup]="formCard">
+            <!-- <form [formGroup]="formCard">
               <div class="formulaire">
                 <div class="form-group col-12">
                   <label for="numero">Numéro</label>
@@ -144,8 +144,7 @@
                          class="form-control">
                 </div>
               </div>
-<!--              <button class="btn btn-primary" (click)="nexTabs()" [disabled]="formCard.invalid">Valider</button>-->
-            </form>
+            </form> -->
           </div>
 
         </div>
@@ -160,7 +159,7 @@
       <div class="wizard-footer mt-4">
         <button class="btn btn-danger mr-2" *ngIf="active>0" (click)="previousTabs()">Précedent</button>
         <button class="btn btn-primary" (click)="nexTabs()" *ngIf="active != 2">Suivant</button>
-        <button class="btn btn-primary" *ngIf="active == 2 && pay">Payer</button>
+        <button class="btn btn-primary" *ngIf="active == 2">Payer</button>
       </div>
 
 

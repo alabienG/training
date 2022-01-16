@@ -77,19 +77,6 @@ export class BuyComponent implements OnInit {
   }
 
   nexTabs() {
-    if (this.active ==1 ) {
-      if (this.active_type ==1 ) {
-        let form = document.getElementsByTagName("form")[0];
-        console.log('form : ', form);
-        console.log('value : ', form.expiration.value);
-        
-        this.chargeCreditCard(form);
-      }
-    }
-    if (this.active < 2) {
-      this.active++;
-    }
-
     this.checkBeforeBuy();
   }
 
@@ -136,23 +123,29 @@ export class BuyComponent implements OnInit {
   }
 
   checkBeforeBuy() {
-    if (this.active == 2 || this.active > 2) {
+    if (this.active == 1) {
       if (this.active_type == 1) {
+        // let form = document.getElementsByTagName("form")[0];
+        // console.log('form : ', form);
+        // console.log('value : ', form.expiration.value);
         this.buy();
+      } else {
+        this.active++;
       }
+    } else {
+      this.active++;
     }
   }
 
   async buy(): Promise<void> {
     // here we create a payment object
     const payment = {
-      name: 'Iphone',
-      currency: 'usd',
-      // amount on cents *10 => to be on dollar
-      amount: 99900,
+      name: '' + this.offre.libelle,
+      currency: 'xaf',
+      amount: this.offre.montant,
       quantity: '1',
-      cancelUrl: 'http://localhost:4200/cancel',
-      successUrl: 'http://localhost:4200/success',
+      cancelUrl: 'http://localhost:4200/#/offers/cancel',
+      successUrl: 'http://localhost:4200/#/offers/success',
     };
 
     // this is a normal http calls for a backend api
