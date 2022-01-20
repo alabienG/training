@@ -10,7 +10,7 @@
   </div>
 </header>
 
-<video width="100%" height="157" src="http://localhost:8081/api/training/files/video/Lefa%20-%20TMCP%20%231%20-%20Fiert%C3%A9%20(Street%20Video).mkv"type="video/mkv"></video>
+<!-- <video width="100%" height="157" src="http://localhost:8081/api/training/files/video/Lefa%20-%20TMCP%20%231%20-%20Fiert%C3%A9%20(Street%20Video).mkv"type="video/mkv"></video> -->
 
 <section class="pricing-tables mt-4">
   <article>
@@ -18,7 +18,7 @@
     <div class="myContainer col-10">
       <div class="cards col-4 mb-2" *ngFor="let cour of cours">
         <div class="cards-image">
-          <div class="embed-responsive embed-responsive-16by9"  *ngFor="let v of courses.get(cour)">
+          <div class="embed-responsive embed-responsive-16by9"  *ngFor="let v of split">
 <!--            <video width="100%" height="157" src="assets/images/videos/KEROZEN%20-%20%20MOTIVATION%20(%20CLIP%20OFFICIEL).mp4"-->
 <!--                    type="video/mp4"></video>-->
             <video width="320" height="240" controls>
