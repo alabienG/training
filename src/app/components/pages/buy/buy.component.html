@@ -15,32 +15,16 @@
   <div class="wizard">
     <div class="wizard-card">
       <div class="wizard-header">
-
-        <div class="steps {{active== 0 ? 'active' :'inatif'}}">
+        <div class="steps active">
           <div class="oneStep">
             <span class="step-name">Offre</span><br/>
             <span class="step-description">Détails de l'offre</span>
           </div>
         </div>
-
-
-        <div class="steps {{active== 1 ? 'active' :'inatif'}}">
-          <div class="oneStep">
-            <span class="step-name">Paiement</span><br/>
-            <span class="step-description">Choisissez le mode de paiement</span>
-          </div>
-        </div>
-
-        <div class="steps {{active== 2 ? 'active' :'inatif'}}">
-          <div class="oneStep">
-            <span class="step-name">Validation</span><br/>
-            <span class="step-description">Terminer le paiement</span>
-          </div>
-        </div>
       </div>
 
       <div class="wizard-body">
-        <div class="stepOne" *ngIf="active ==0">
+        <div class="stepOne">
           <div class="detail-offer">
             <img src="assets/images/img/portfolio/fullsize/1.jpg" width="20%" height="100px">
             <div class="description-ofre">
@@ -92,74 +76,10 @@
             </div>
           </div>
         </div>
-
-
-        <div class="stepOne" *ngIf="active ==1">
-          <h6>Veuillez choisir votre mode de paiement !</h6>
-          <div class="d-flex justify-content-center">
-            <input type="radio" id="carte" (change)="changeType(1)" name="paiment_type" class="form-check" value="1">
-            <label for="carte" class="ml-2"><strong class="{{active_type == 1 ? 'active-type' :''}}">Carte de
-              crédit</strong></label>
-
-            <input type="radio" id="mobile" (change)="changeType(2)" name="paiment_type" class="form-check ml-4"
-                   value="2">
-            <label for="mobile" class="ml-2"><strong
-              class="{{active_type == 2 ? 'active-type' :''}}">Mobile
-              Money</strong></label>
-          </div>
-
-          <div class="card-type" *ngIf="active_type ==1">
-            <!-- <form [formGroup]="formCard">
-              <div class="formulaire">
-                <div class="form-group col-12">
-                  <label for="numero">Numéro</label>
-                  <input type="text" id="numero" [ngModel]="newCard.numero" (change)="checkValide()"
-                         formControlName="numero"
-                         name="numero"
-                         class="form-control">
-                </div>
-
-
-                <div class="form-group col-12">
-                  <label for="expiration">Expiration</label>
-                  <input type="date" id="expiration" [ngModel]="newCard.expriration" (change)="checkValide()"
-                         formControlName="expiration"
-                         name="expiration"
-                         class="form-control">
-                </div>
-
-                <div class="form-group col-12">
-                  <label for="cvv">Code CVV</label>
-                  <input type="text" id="cvv" (change)="checkValide()" [ngModel]="newCard.ccv"
-                         formControlName="cvv"
-                         name="cvv"
-                         class="form-control">
-                </div>
-
-                <div class="form-group col-12">
-                  <label for="noms">Noms et prénoms</label>
-                  <input type="text" id="noms" (change)="checkValide()" [ngModel]="newCard.noms"
-                         formControlName="noms"
-                         name="noms"
-                         class="form-control">
-                </div>
-              </div>
-            </form> -->
-          </div>
-
-        </div>
-
-
-        <div class="stepOne" *ngIf="active ==2">
-          troisième
-        </div>
-
       </div>
 
       <div class="wizard-footer mt-4">
-        <button class="btn btn-danger mr-2" *ngIf="active>0" (click)="previousTabs()">Précedent</button>
-        <button class="btn btn-primary" (click)="nexTabs()" *ngIf="active != 2">Suivant</button>
-        <button class="btn btn-primary" *ngIf="active == 2">Payer</button>
+        <button class="btn btn-primary" (click)="buy()">Payer</button>
       </div>
 
 

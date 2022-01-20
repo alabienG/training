@@ -16,98 +16,19 @@
     <article>
       <h1>Commençons notre apprentissage</h1>
       <div class="row mt-4">
-        <div class="cards col-4 mb-2 mr-1">
-          <a routerLink="/detailsModule/2">
+        <div class="cards col-4 mb-2 mr-1" *ngFor="let m of modules">
+          <a routerLink="/detailsModule/{{m.id}}">
             <div class="cards-body">
               <img src="assets/images/img/bg-masthead.jpg" height="200px">
+              <h3>{{m.libelle}}</h3>
               <p>
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                took a galley of
-                type and scrambled it to make a type specimen book. It has survived not only five centuries
+                {{m.description}}
               </p>
 
             </div>
             <div class="cards-footer">
               <p>
-                32 videos
-              </p>
-              <div>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star not"></span>
-              </div>
-              <i class="fas fa-heart"></i>
-            </div>
-          </a>
-        </div>
-        <div class="cards col-4 mb-2 mr-1">
-          <a routerLink="/detailsModule/2">
-            <div class="cards-body">
-              <img src="assets/images/img/bg-masthead.jpg" height="200px">
-              <p>
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                took a galley of
-                type and scrambled it to make a type specimen book. It has survived not only five centuries
-              </p>
-
-            </div>
-            <div class="cards-footer">
-              <p>
-                32 videos
-              </p>
-              <div>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star not"></span>
-              </div>
-              <i class="fas fa-heart"></i>
-            </div>
-          </a>
-        </div>
-        <div class="cards col-4 mb-2 mr-1">
-          <a routerLink="/detailsModule/2">
-            <div class="cards-body">
-              <img src="assets/images/img/bg-masthead.jpg" height="200px">
-              <p>
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                took a galley of
-                type and scrambled it to make a type specimen book. It has survived not only five centuries
-              </p>
-
-            </div>
-            <div class="cards-footer">
-              <p>
-                32 videos
-              </p>
-              <div>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star not"></span>
-              </div>
-              <i class="fas fa-heart"></i>
-            </div>
-          </a>
-        </div>
-        <div class="cards col-4 mb-2 mr-1">
-          <a routerLink="/detailsModule/2">
-            <div class="cards-body">
-              <img src="assets/images/img/bg-masthead.jpg" height="200px">
-              <p>
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                took a galley of
-                type and scrambled it to make a type specimen book. It has survived not only five centuries
-              </p>
-
-            </div>
-            <div class="cards-footer">
-              <p>
-                32 videos
+                {{m.nombreVideo}} videos
               </p>
               <div>
                 <span class="fa fa-star checked"></span>

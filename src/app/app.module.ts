@@ -32,6 +32,21 @@ import {RegisterComponent} from './components/auth/register/register.component';
 import {AngularFileUploaderModule} from 'angular-file-uploader';
 import {DetailCoursComponent} from './components/pages/detail-cours/detail-cours.component';
 import { CardService } from './services/card.service';
+import { AbonnementService } from './services/abonnement.service';
+import { ClientService } from './services/client.service';
+
+import { InjectionToken, FactoryProvider } from '@angular/core';
+
+export const WINDOW = new InjectionToken<Window>('window');
+
+const windowProvider: FactoryProvider = {
+  provide: WINDOW,
+  useFactory: () => window
+};
+
+export const WINDOW_PROVIDERS = [
+    windowProvider
+]
 
 const routes: Routes = [
 
@@ -105,7 +120,7 @@ const routes: Routes = [
     NgxPaginationModule,
     AngularFileUploaderModule
   ],
-  providers: [LoginService, OffreService, ModuleService, CourService, CardService],
+  providers: [WINDOW_PROVIDERS, LoginService, OffreService, ModuleService, CourService, CardService, AbonnementService, ClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

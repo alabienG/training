@@ -103,23 +103,24 @@ export class CoursComponent implements OnInit {
   }
 
   upload() {
-    let pathImage = '';
+    let path = '';
     let count: number = 0;
     console.log('File', this.files);
     for (let i = 0; i < this.files.length; i++) {
       this.uploadService.upload(this.files[i]).subscribe(
         (event) => {
           this.toasts.success('Fichier : ' + this.files[i].name + '\n' + event.message, 'Telechargement Terminé');
-          pathImage = pathImage + ';' + this.files[i].name;
+          path = path + ';' + event.url;
           count++;
           console.log('Count ' + count);
           if(count === this.files.length) {
-            this.addOrUpdate(pathImage);
+            this.addOrUpdate(path);
           }
         },
         (error) => {
           console.log('error : ', error);
           this.toasts.error('Error : ' + error.error);
+          this.annuler();
         }
       );
     }
@@ -129,8 +130,8 @@ export class CoursComponent implements OnInit {
     let formValue = this.coursForm.value;
     this.current.libelle = formValue.libelle;
     this.current.nombreHeure = formValue.nombreHeure;
-    // this.current.path = formValue.path;
-    this.current.pathImage = '' + path;
+    this.current.path = '' + path;
+    //this.current.pathImage = '' + path;
     this.current.description = formValue.description;
     this.current.module = new Module(parseInt(formValue.module));
 

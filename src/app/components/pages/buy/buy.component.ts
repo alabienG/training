@@ -39,16 +39,8 @@ export class BuyComponent implements OnInit {
   stripePromise = loadStripe(environment.stripePublicKey);
   
   offre = new Offre();
-  choosePaiement = '';
 
   newCard = new Card();
-
-  active = 0;
-  active_type = 1;
-
-  active_form = true;
-
-  formCard: FormGroup;
 
   pay : boolean;
 
@@ -60,7 +52,6 @@ export class BuyComponent implements OnInit {
   ngOnInit(): void {
     let id = this.route.snapshot.params.idOffre;
     this.getOneOffre(id);
-    this.pay = false;
   }
 
   getOneOffre(id: number) {
@@ -72,72 +63,8 @@ export class BuyComponent implements OnInit {
     );
   }
 
-  choose($event) {
-    this.choosePaiement = $event.target.value;
-  }
-
-  nexTabs() {
-    this.checkBeforeBuy();
-  }
-
-  previousTabs() {
-    this.active--;
-  }
-
-  changeType(type: number) {
-    this.active_type = type;
-    if (type == 1) {
-      this.initFormCarte();
-    }
-  }
-
-  initFormCarte() {
-    this.formCard = this.formBuilder.group(
-      {
-        'numero': ['', Validators.required],
-        'expiration': ['', Validators.required],
-        'cvv': ['', Validators.required],
-        'noms': ['', Validators.required],
-      });
-    this.active_form = this.formCard.invalid;
-  }
-
-  checkValide() {
-    this.active_form = this.formCard.invalid;
-    console.log(this.formCard.invalid);
-  }
-
-  chargeCreditCard(form) {
-    this.newCard = new Card();
-    this.newCard.ccv = form.cvv.value;
-    this.newCard.expiration = form.expiration.value;
-    this.newCard.noms = form.noms.value;
-    this.newCard.numero = form.numero.value;
-
-    if (this.newCard.ccv != '' && this.newCard.expiration !== null && this.newCard.noms != '' && this.newCard.numero != '') {
-      this.pay = true;
-    } else {
-      this.pay = false;
-    }
-    //alert('card : ' + JSON.stringify(this.newCard));
-  }
-
-  checkBeforeBuy() {
-    if (this.active == 1) {
-      if (this.active_type == 1) {
-        // let form = document.getElementsByTagName("form")[0];
-        // console.log('form : ', form);
-        // console.log('value : ', form.expiration.value);
-        this.buy();
-      } else {
-        this.active++;
-      }
-    } else {
-      this.active++;
-    }
-  }
-
   async buy(): Promise<void> {
+    localStorage.setItem('offre_id', this.offre.id + '');
     // here we create a payment object
     const payment = {
       name: '' + this.offre.libelle,

@@ -20,8 +20,8 @@ export class CourService {
     return this.http.get(this.root + '/?page=' + page + '&taille=' + taille);
   }
 
-  allByModule(page: number, taille: number): Observable<any> {
-    return this.http.get(this.root + '/allByModule/?page=' + page + '&taille=' + taille);
+  allByModule(idModule: number, page: number, taille: number): Observable<any> {
+    return this.http.get(this.root + '/allByModule/' + idModule + '?page=' + page + '&taille=' + taille);
   }
 
   getOne(idCours: number): Observable<Cours> {

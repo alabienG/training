@@ -14,11 +14,12 @@ export class Offre {
   nombreModule;
   modules:Module[];
 
+  // @ts-ignore
+  constructor();
+
+  constructor(id: number);
 
   constructor(id: number) {
     this.id = id;
   }
-
-  // @ts-ignore
-  constructor();
 }

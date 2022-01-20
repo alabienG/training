@@ -2,7 +2,7 @@
   <div class="container px-4 px-lg-5 h-100">
     <div class="row gx-4 gx-lg-5 h-50 align-items-center justify-content-center text-center">
       <div class="col-lg-8 align-self-end">
-        <h1 class="text-white font-weight-bold">Module : Lorem Ipsum</h1>
+        <h1 class="text-white font-weight-bold">Module : {{module.libelle}}</h1>
         <hr class="divider"/>
       </div>
 
@@ -10,19 +10,20 @@
   </div>
 </header>
 
+<video width="100%" height="157" src="http://localhost:8081/api/training/files/video/Lefa%20-%20TMCP%20%231%20-%20Fiert%C3%A9%20(Street%20Video).mkv"type="video/mkv"></video>
 
 <section class="pricing-tables mt-4">
   <article>
     <h1 class="m-lg-4">Les vidéos du module</h1>
     <div class="myContainer col-10">
-      <div class="cards col-4 mb-2">
+      <div class="cards col-4 mb-2" *ngFor="let cour of cours">
         <div class="cards-image">
-          <div class="embed-responsive embed-responsive-16by9">
+          <div class="embed-responsive embed-responsive-16by9"  *ngFor="let v of courses.get(cour)">
 <!--            <video width="100%" height="157" src="assets/images/videos/KEROZEN%20-%20%20MOTIVATION%20(%20CLIP%20OFFICIEL).mp4"-->
 <!--                    type="video/mp4"></video>-->
             <video width="320" height="240" controls>
-              <source src="assets/images/videos/KEROZEN%20-%20%20MOTIVATION%20(%20CLIP%20OFFICIEL).mp4" autocapitalize="on" type="video/mp4">
-              <source src="assets/images/videos/KEROZEN%20-%20%20MOTIVATION%20(%20CLIP%20OFFICIEL).mp4" type="video/ogg">
+              <source [src]="v" autocapitalize="on" type="video/mp4">
+              <source [src]="v" type="video/ogg">
             </video>
             <div class="content">
               <h1>The Timbers</h1>
@@ -33,12 +34,12 @@
         <!-- card image -->
 
         <div class="cards-content">
-          <span class="card-title">Thumping Rhythms</span>
-          <p>THE TIMBERS’ thumping rhythms and big misty mountain</p>
+          <span class="card-title">{{cour.libelle}}</span>
+          <p>{{cour.description}}</p>
 
         </div>
         <!-- card content -->
-        <a routerLink="/detailCours/1" class="btn btn-sm btn-light">Détails</a>
+        <a routerLink="/detailCours/{{cour.id}}" class="btn btn-sm btn-light">Détails</a>
       </div>
     </div>
   </article>
@@ -64,55 +65,14 @@
     <br/>
     <br/>
     <div class="row">
-      <div class="col-12">
+      <div class="col-12" *ngFor="let m of modules">
         <div class="img">
           <img src="assets/images/img/portfolio/thumbnails/2.jpg" width="100%">
         </div>
 
         <div class="desc">
-
-          <p>Titre du module module</p>
-          <p>23 videos</p>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="img">
-          <img src="assets/images/img/portfolio/thumbnails/2.jpg" width="100%">
-        </div>
-
-        <div class="desc">
-          <p>Titre du module</p>
-          <p>23 videos</p>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="img">
-          <img src="assets/images/img/portfolio/thumbnails/2.jpg" width="100%">
-        </div>
-
-        <div class="desc">
-          <p>Titre du module</p>
-          <p>23 videos</p>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="img">
-          <img src="assets/images/img/portfolio/thumbnails/2.jpg" width="100%">
-        </div>
-
-        <div class="desc">
-          <p>Titre du module</p>
-          <p>23 videos</p>
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="img">
-          <img src="assets/images/img/portfolio/thumbnails/2.jpg" width="100%">
-        </div>
-
-        <div class="desc">
-          <p>Titre du module</p>
-          <p>23 videos</p>
+          <p>{{m.libelle}}</p>
+          <p>{{m.nombreVideo}}</p>
         </div>
       </div>
     </div>

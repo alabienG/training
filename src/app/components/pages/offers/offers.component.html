@@ -35,7 +35,7 @@
           </div>
           <div class="footer row">
             <button class="btn btn-sm btn-outline-secondary col-5 mr-4" (click)="open(content, item)">Détails</button>
-            <a class="btn btn-sm btn-outline-primary col-5" routerLink="/buy/{{item.id}}">Buy Now</a>
+            <a class="btn btn-sm btn-outline-primary col-5" routerLink="/buy/{{item.id}}" *ngIf="!checkOffrePaye(item)">Buy Now</a>
           </div>
         </div>
       </div>

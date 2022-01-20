@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  stripePublicKey: '',//PUT YOUR STRIPE PUBLIC KEY HERE
+  stripePublicKey: 'pk_test_51KHxNTGf328Tr82UzhidaxYks5pT209YuibM2DaUqUUuzjpO7eSsczhoDK6Wv4RAIRAQzuNWfvosuZRkR2lchGl800nbwvzgvb',//PUT YOUR STRIPE PUBLIC KEY HERE
+  urlFile: 'http://localhost:8081/',
   url: 'http://localhost:8081/api/training/',
   //url: 'http://51.222.110.5:8081/api/training/',
 };
